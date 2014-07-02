@@ -5,18 +5,21 @@
   
   <title>使用Android依赖注入工具Dagger（一） | Bruce Lee&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于如何在Android项目中使用MVP模式的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。
-开始的部分可能有些偏理论。知道">
+  <meta name="description" content="[翻译] 原文地址
+在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于如何在Android项目中使用MVP模式的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。
+开始的部分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Android依赖注入工具Dagger（一）">
 <meta property="og:url" content="http://blog.jinkuyinku.com/2014/07/02/使用Android依赖注入工具Dagger（一）/">
 <meta property="og:site_name" content="Bruce Lee's Blog">
-<meta property="og:description" content="在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于如何在Android项目中使用MVP模式的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。
-开始的部分可能有些偏理论。知道">
+<meta property="og:description" content="[翻译] 原文地址
+在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于如何在Android项目中使用MVP模式的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。
+开始的部分">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Android依赖注入工具Dagger（一）">
-<meta name="twitter:description" content="在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于如何在Android项目中使用MVP模式的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。
-开始的部分可能有些偏理论。知道">
+<meta name="twitter:description" content="[翻译] 原文地址
+在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于如何在Android项目中使用MVP模式的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。
+开始的部分">
   
     <link rel="alternative" href="/atom.xml" title="Bruce Lee&#39;s Blog" type="application/atom+xml">
   
@@ -83,7 +86,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于<a href="http://antonioleiva.com/mvp-android/" target="_blank" rel="external">如何在Android项目中使用MVP模式</a>的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。</p>
+        <p>[翻译] <a href="http://antonioleiva.com/dependency-injection-android-dagger-part-1/" target="_blank" rel="external">原文地址</a></p>
+<p>在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于<a href="http://antonioleiva.com/mvp-android/" target="_blank" rel="external">如何在Android项目中使用MVP模式</a>的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。</p>
 <p>开始的部分可能有些偏理论。知道什么是依赖注入以及为什么会有依赖注入很重要，不然的话很可能会觉得我们费那么大劲引入依赖注入很不值得。</p>
 <h2 id="什么是依赖">什么是依赖</h2>
 <p>想要注入依赖，必须要先弄懂什么是依赖。简而言之，依赖就是两个模块之间的耦合，常见的情况是一个模块需要使用另外一个模块来完成某些任务。</p>
@@ -159,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.jinkuyinku.com/2014/07/02/使用Android依赖注入工具Dagger（一）/" data-id="cvktiqysay7pwbpc" class="article-share-link">Share</a>
+      <a data-url="http://blog.jinkuyinku.com/2014/07/02/使用Android依赖注入工具Dagger（一）/" data-id="wl10t4g6v19y4pr7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dagger/">dagger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/denpendency-injection/">denpendency injection</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/依赖注入/">依赖注入</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
