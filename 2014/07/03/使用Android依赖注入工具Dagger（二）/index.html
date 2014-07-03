@@ -3,17 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: dagger | Bruce Lee&#39;s Blog</title>
+  <title>使用Android依赖注入工具Dagger（二） | Bruce Lee&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Bruce Lee's Blog">
-<meta property="og:url" content="http://blog.jinkuyinku.com/tags/dagger/">
+  <meta name="description" content="如果你读过该系列的第一篇文章,那么你一定看看在真实的代码中如何去实现。Dagger官网有一个咖啡机的例子，同时Jake Wharton在github上面也提供了一个更棒的例子给更有经验的用户参考。但是我们需要一个稍微简单一些的例子，而咖啡机并不符合我们的业务场景，这篇文章将提供一个使用依赖注入的例子来帮助我们理解一些依赖注入的基本知识。
+代码已经放到了github上面
+在项目中使用Dagger
+使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Android依赖注入工具Dagger（二）">
+<meta property="og:url" content="http://blog.jinkuyinku.com/2014/07/03/使用Android依赖注入工具Dagger（二）/">
 <meta property="og:site_name" content="Bruce Lee's Blog">
-<meta property="og:description">
+<meta property="og:description" content="如果你读过该系列的第一篇文章,那么你一定看看在真实的代码中如何去实现。Dagger官网有一个咖啡机的例子，同时Jake Wharton在github上面也提供了一个更棒的例子给更有经验的用户参考。但是我们需要一个稍微简单一些的例子，而咖啡机并不符合我们的业务场景，这篇文章将提供一个使用依赖注入的例子来帮助我们理解一些依赖注入的基本知识。
+代码已经放到了github上面
+在项目中使用Dagger
+使">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bruce Lee's Blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="使用Android依赖注入工具Dagger（二）">
+<meta name="twitter:description" content="如果你读过该系列的第一篇文章,那么你一定看看在真实的代码中如何去实现。Dagger官网有一个咖啡机的例子，同时Jake Wharton在github上面也提供了一个更棒的例子给更有经验的用户参考。但是我们需要一个稍微简单一些的例子，而咖啡机并不符合我们的业务场景，这篇文章将提供一个使用依赖注入的例子来帮助我们理解一些依赖注入的基本知识。
+代码已经放到了github上面
+在项目中使用Dagger
+使">
   
     <link rel="alternative" href="/atom.xml" title="Bruce Lee&#39;s Blog" type="application/atom+xml">
   
@@ -58,9 +67,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-使用Android依赖注入工具Dagger（二）" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-使用Android依赖注入工具Dagger（二）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/07/03/使用Android依赖注入工具Dagger（二）/" class="article-date">
   <time datetime="2014-07-03T12:29:42.000Z" itemprop="datePublished">Jul 3 2014</time>
@@ -73,8 +80,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/03/使用Android依赖注入工具Dagger（二）/">使用Android依赖注入工具Dagger（二）</a>
+    <h1 class="article-title" itemprop="name">
+      使用Android依赖注入工具Dagger（二）
     </h1>
   
 
@@ -252,124 +259,36 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-使用Android依赖注入工具Dagger（一）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/07/02/使用Android依赖注入工具Dagger（一）/" class="article-date">
-  <time datetime="2014-07-02T13:51:22.000Z" itemprop="datePublished">Jul 2 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/02/使用Android依赖注入工具Dagger（一）/">使用Android依赖注入工具Dagger（一）</a>
-    </h1>
+    <a href="/2014/07/02/使用Android依赖注入工具Dagger（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用Android依赖注入工具Dagger（一）</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[翻译] <a href="http://antonioleiva.com/dependency-injection-android-dagger-part-1/" target="_blank" rel="external">原文地址</a></p>
-<p>在这个系列中，我将向你解释什么是依赖注入，为什么使用依赖注入以及在Android中如何使用依赖注入框架dagger， dagger是square出品的专门为Android优化设计的依赖注入框架。这篇文章是是我上一篇关于<a href="http://antonioleiva.com/mvp-android/" target="_blank" rel="external">如何在Android项目中使用MVP模式</a>的姊妹篇，读者中一定有人对在同一个项目中结合MVP模式和dagger感兴趣，我认为这两者可以完美的结合在一起。</p>
-<p>开始的部分可能有些偏理论。知道什么是依赖注入以及为什么会有依赖注入很重要，不然的话很可能会觉得我们费那么大劲引入依赖注入很不值得。</p>
-<h2 id="什么是依赖">什么是依赖</h2>
-<p>想要注入依赖，必须要先弄懂什么是依赖。简而言之，依赖就是两个模块之间的耦合，常见的情况是一个模块需要使用另外一个模块来完成某些任务。</p>
-<h2 id="为什么存在依赖是很危险的">为什么存在依赖是很危险的</h2>
-<p>模块的依赖是很危险的，因为一旦我们想要替换其中的一个模块，我们必须要更改和要替换的模块存在耦合的模块。尤其是当我们想创建一个可以测试的应用的时候，单元测试通常要求被测试的模块是和其他模块隔离开的。测试中通常是将非测试模块mock掉（相当于用假的实现相同接口的模块去替换）。看看下面的一段代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Module1</span>{</span>
-   <span class="keyword">private</span> Module2 module2;
-
-   <span class="keyword">public</span> <span class="title">Module1</span>(){
-      module2 = <span class="keyword">new</span> Module2();
-   }
-
-   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span>(){
-      ...
-      module2.doSomethingElse();
-      ...
-   }
-}
-</pre></td></tr></table></figure><br>我们如何去做到仅仅测试doSomething这个方法，而不用去关心doSomethingElse这个方法呢？如果测试失败了，那么又是哪个方法导致的呢？我们无法知道。如果doSomethingElse执行了保存到数据库相关的代码或者调用的其他的api，情况会变的更糟糕。<br><br>每一个new都是一个很难更改的依赖，我们应该尽可能的避免直接使用new。减少模块也不是一个避免过多依赖的好办法，别忘了单一职责原则（single responsibility principle）。<br><br>##如何解决这个问题？依赖反转(dependency inversion)<br><br>既然不能使用new来直接创建依赖的对象，那就只好通过其他办法了。你猜是什么办法？yes，就是使用构造器来传入。这就是依赖反转的最基本的概念—不依赖具体的对象，依赖于抽象。<br>之前的那段代码可以改成这样：<br><br><figure class="highlight java"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Module1</span>{</span>
-   <span class="keyword">private</span> Module2 module2;
-
-   <span class="keyword">public</span> <span class="title">Module1</span>(Module2 module2){
-      <span class="keyword">this</span>.module2 = module2
-   }
-
-   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span>(){
-      ...
-      module2.doSomethingElse();
-      ...
-   }
-}
-</pre></td></tr></table></figure>
-
-<h2 id="那么到底什么是依赖注入呢？">那么到底什么是依赖注入呢？</h2>
-<p>你猜对了，通过构造器传入依赖的对象就是依赖注入，这样就不需要在一个模块中去创建另外一个模块了。对象是在别的地方被创建然后通过构造器传入依赖它的对象中。</p>
-<p>但是新的问题又出现了，如果我不能在一模块中创建另外一个模块，总要有一个地方来负责实例化这些模块吧。而且，如果我们创建了一个有很长构造器参数列表模块，代码将会变的令人恶心难读。这正是依赖注入器（independency injector）要帮助我们解决的。</p>
-<h2 id="什么是依赖注入器？">什么是依赖注入器？</h2>
-<p>你可以把他想象成一个这样的模块，它负责构造所有其他模块的实例，并且传入这些模块的依赖。现在我们的应用程序中只有一个入口来负责创建所有模块的实例，而这个入口完全在我们的控制下。</p>
-<h2 id="什么是Dagger">什么是Dagger</h2>
-<p><a href="http://square.github.io/dagger/" target="_blank" rel="external">Dagger</a>是一个完全为低端设备设计的依赖注入器。绝大多数的依赖注入器都是基于反射来实现的。反射的确很酷，但是在低端设备上执行反射的效率太低。Dagger使用的是预编译技术来创建所有依赖的类。这样就避免了使用反射。Dagger虽然没有其他的依赖注入框架强大，但它是效率最高的。</p>
-<h2 id="Dagger仅仅是为了测试而使用么？">Dagger仅仅是为了测试而使用么？</h2>
-<p>当然不是。Dagger将会让在其他app里面重用你的模块变的更加简单，甚至在同一个应用中修改摸个模块也会变的更加容易。比如一个应用，在开发版本中使用本地文件来获取数据，而在正式版本中，使用API 服务获取数据，使用依赖注入在不同的模式下注入不同的对象将会很完美的解决这个问题。</p>
-<h2 id="小结">小结</h2>
-<p>我知道这篇文章很晦涩，但是解释清楚下面几篇将会使用的术语很重要。我们已经知道了什么是依赖，使用依赖反转的好处以及如何使用一个依赖注入框架去实现它。</p>
-<p>接下来的几篇文章，让我们尽情的coding，以解手痒吧！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.jinkuyinku.com/2014/07/02/使用Android依赖注入工具Dagger（一）/" data-id="8j6l5bu4i6ybf0yz" class="article-share-link">Share</a>
-      
-        <a href="http://blog.jinkuyinku.com/2014/07/02/使用Android依赖注入工具Dagger（一）/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dagger/">dagger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/denpendency-injection/">denpendency injection</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/依赖注入/">依赖注入</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
 
-  
-  
+<section id="comments">
+  <div class="ds-thread" data-thread-key="b7e41rvscmrvt8e0" data-title="使用Android依赖注入工具Dagger（二）" data-url="http://blog.jinkuyinku.com/2014/07/03/使用Android依赖注入工具Dagger（二）/">
+  </div>
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"brucelee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -454,11 +373,13 @@
 <script>
   var disqus_shortname = 'BruceLee';
   
+  var disqus_url = 'http://blog.jinkuyinku.com/2014/07/03/使用Android依赖注入工具Dagger（二）/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//go.disqus.com/count.js';
+    dsq.src = '//go.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
