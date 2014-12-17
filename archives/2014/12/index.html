@@ -62,6 +62,79 @@
       <div class="outer">
         <section id="main">
   
+    <article id="square-Otto使用入门" class="article article-type-square" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/17/Otto使用入门/" class="article-date">
+  <time datetime="2014-12-17T14:51:24.000Z" itemprop="datePublished">Dec 17 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/17/Otto使用入门/">Otto使用入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>android</li>
+<li>square</li>
+<li>Otto</li>
+<li>event bus</li>
+</ul>
+<h2 id="介绍">介绍</h2>
+<p><a href="https://github.com/square/otto" target="_blank" rel="external">Otto</a>是square公司出的一个事件库（pub/sub模式），用来简化应用程序组件之间的通讯。<br>Otto 修改自Google的Guava库，专门为Android平台进行了优化。</p>
+<h2 id="使用">使用</h2>
+<p>Otto本身是为Android平台专门开发的，使用的时候最好是使用单例模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bus bus = <span class="keyword">new</span> Bus();</div></pre></td></tr></table></figure>
+
+<p>bus对象只有作为单例共享的时候才足够高效，推荐使用依赖注入框架来注入单例对象或者采用类似的机制。</p>
+<h2 id="发布事件">发布事件</h2>
+<p>发布一个事件很简单，调用post方法就可以，post方法可以接受任何类型对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bus.post(<span class="keyword">new</span> AnswerAvailableEvent(<span class="number">42</span>));</div></pre></td></tr></table></figure>
+
+<h2 id="订阅事件">订阅事件</h2>
+<p>订阅只需要在方法上加上@Subscribe注解，同时在适当的地方调用register方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="annotation">@Subscribe</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">answerAvailable</span>(AnswerAvailableEvent event) {</div><div class="line">    <span class="comment">// TODO: React to the event somehow!</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>注意subscribe方法接收的参数类型需要和post参数的类型一致或者是post参数类型的父类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bus.register(<span class="keyword">this</span>);</div></pre></td></tr></table></figure>
+
+<p>一旦调用了register方法，Otto就会通过反射去寻找所有带有@Subscribe或者@Produce注解的方法，并将这些方法缓存下来。只有在调用了register之后，该类里面标注了@Subscribe或者@Produce的方法才会在适当的时候被调用。另外，当不需要订阅事件的时候，可以调用unregister来取消订阅。</p>
+<h2 id="生产者">生产者</h2>
+<p>有时候当订阅某个事件的时候，希望能够获取当前的一个值，比如订阅位置变化事件的时候，希望能拿到当前的位置信息。Otto中@Produce正是扮演了这么一个生产者的角色。<br>@Produce也是用于方法，并且这个方法的参数必须为空，返回值是你要订阅的事件的类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="annotation">@Produce</span> <span class="keyword">public</span> AnswerAvailableEvent <span class="title">produceAnswer</span>() {</div><div class="line">    <span class="comment">// Assuming 'lastAnswer' exists.</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> AnswerAvailableEvent(<span class="keyword">this</span>.lastAnswer);</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>使用@Produce之后，也需要调用bus.register()。调用了register方法之后，所有之前订阅AnswerAvailableEvent事件的方法都会被执行一次，参数就是produceAnswer方法的返回值，之后任何新的订阅了AnswerAvailableEvent事件的方法，也都会立即调用produceAnswer方法。</p>
+<h2 id="线程限制">线程限制</h2>
+<p>可以指定@Subscribe和@Produce标注的回调方法所运行的线程，默认是在MainThread中执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 这两个方法是等价的</span></div><div class="line">Bus bus1 = <span class="keyword">new</span> Bus();</div><div class="line">Bus bus2 = <span class="keyword">new</span> Bus(ThreadEnforcer.MAIN);</div></pre></td></tr></table></figure>
+
+<p>如果不关心在哪个线程执行，可以使用ThreadEnforcer.ANY，甚至可以使用自己实现的ThreadEnforcer接口。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.jinkuyinku.com/2014/12/17/Otto使用入门/" data-id="g1e51yw5f6slqcbg" class="article-share-link">Share</a>
+      
+        <a href="http://blog.jinkuyinku.com/2014/12/17/Otto使用入门/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-深入浅出RxJava（一：基础篇）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/12/09/深入浅出RxJava（一：基础篇）/" class="article-date">
@@ -207,7 +280,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -217,6 +290,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/12/17/Otto使用入门/">Otto使用入门</a>
+          </li>
         
           <li>
             <a href="/2014/12/09/深入浅出RxJava（一：基础篇）/">深入浅出RxJava（一：基础篇）</a>
@@ -232,10 +309,6 @@
         
           <li>
             <a href="/2014/06/30/使用gradle构建android程序-1/">使用Gradle构建Android程序-1</a>
-          </li>
-        
-          <li>
-            <a href="/2014/06/30/hello-world/">Hello World</a>
           </li>
         
       </ul>
