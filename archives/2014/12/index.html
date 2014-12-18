@@ -62,6 +62,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="square-Otto源码分析" class="article article-type-square" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/18/Otto源码分析/" class="article-date">
+  <time datetime="2014-12-18T14:27:04.000Z" itemprop="datePublished">Dec 18 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/18/Otto源码分析/">Otto源码分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="构造函数">构造函数</h2>
+<p>使用Otto通常是通过一个Provider提供一个Bus单例。<br>首先我们来分析一下Bus的构造函数，Bus类的构造函数最终都会调用Bus(ThreadEnforcer enforcer, String identifier, HandlerFinder handlerFinder)这个构造函数。<br>其中enforcer用来限制执行register，unregister以及post event的线程，如果执行这些函数的线程不是enforcer指定的线程，就会抛出异常。<br>identifier相当于给Bus起的一个名字，在toString方法中使用。<br>handlerFinder是整个event bus的核心，用于在register，unregister的时候寻找所有的subscriber和producer。handlerFinder不需要用户指定，默认使用HandlerFinder接口中定义的常量ANNOTATED，ANNOTATED本身就是HandlerFinder的匿名实现。</p>
+<h2 id="注册">注册</h2>
+<p>如果一个类对某些事件感兴趣，需要调用register方法来注册监听这些事件，监听通过在方法上使用@Subscribe来实现，Otto通过方法的参数来决定是否调用该方法。<br>register方法首先会调用handlerFinder的findAllProducers（object）方法去找到所有使用了@Produce注解的方法。findAllProducers其实是委托AnnotatedHandlerFinder.findAllProducers方法。在AnnotatedHandlerFinder中，定义了一个静态变量SUBSCRIBERS_CACHE</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Map&lt;Class&lt;?&gt;, Map&lt;Class&lt;?&gt;, Method&gt;&gt; PRODUCERS_CACHE =</div><div class="line">      <span class="keyword">new</span> HashMap&lt;Class&lt;?&gt;, Map&lt;Class&lt;?&gt;, Method&gt;&gt;();</div></pre></td></tr></table></figure>
+
+<p>PRODUCERS_CACHE 的key是监听类，就是调用bus.register()的类，value本身又是一个map，这个map的key是事件的class，value是生产事件的方法。<br>比如下面这个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>{</div><div class="line">  <span class="annotation">@Inject</span> Bus bus;</div><div class="line"></div><div class="line">  <span class="annotation">@Override</span></div><div class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span>() {</div><div class="line">    bus.register(<span class="keyword">this</span>);</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="annotation">@Produce</span> <span class="keyword">public</span> ClickEvent <span class="title">produceClick</span>() {</div><div class="line">      <span class="comment">// TODO: React to the event somehow!</span></div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> ClickEvent();</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>在PRODUCERS_CACHE中就会有一条记录，它的key是MainActivity.class，value对应的map中，key是ClickEvent.class，value是produceClick Method对象。<br>SUBSCRIBERS_CACHE:<br>  MainActivity.class -》<br>      ClickEvent.class -》produceClick</p>
+<p>当调用AnnotatedHandlerFinder的findAllProducers方法时，会先根据传入的对象的类型，检查是否已经被缓存到PRODUCERS_CACHE，如果没有的话，就会调用loadAnnotatedMethods，利用反射去寻找所有使用了@Produce注解的方法，并且将结果缓存到PRODUCERS_CACHE中。最后，会从PRODUCERS_CACHE中取出监听类的所有Produce方法，遍历这些方法，为一个方法构建一个EventProducer对象，并将这个EventProducer对象放到一个以事件的class作为key的map中，然后返回这个map。EventProducer类包含了Produce方法和该方法所属的对象，并且提供了调用Produce方法的功能。</p>
+<p>回到Bus的Register方法，调用完findAllProducers方法之后，会遍历传入的监听类的Produce方法，并且根据Produce方法的返回值类型，来检查是否已经有对应的Subscribe存在，如果有的话，就会调用Subscribe方法，并将Producer的返回值传入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Set&lt;EventHandler&gt; handlers = handlersByType.get(type);</div><div class="line"><span class="keyword">if</span> (handlers != <span class="keyword">null</span> && !handlers.isEmpty()) {</div><div class="line">  <span class="keyword">for</span> (EventHandler handler : handlers) {</div><div class="line">    dispatchProducerResultToHandler(handler, producer);</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这里需要注意的是，Bus对象两个map类型的常量，用来缓存所有事件的Producer和Subscriber。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/** All registered event handlers, indexed by event type. */</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> ConcurrentMap&lt;Class&lt;?&gt;, Set&lt;EventHandler&gt;&gt; handlersByType =</div><div class="line">        <span class="keyword">new</span> ConcurrentHashMap&lt;Class&lt;?&gt;, Set&lt;EventHandler&gt;&gt;();</div><div class="line"></div><div class="line"><span class="javadoc">/** All registered event producers, index by event type. */</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> ConcurrentMap&lt;Class&lt;?&gt;, EventProducer&gt; producersByType =</div><div class="line">        <span class="keyword">new</span> ConcurrentHashMap&lt;Class&lt;?&gt;, EventProducer&gt;();</div></pre></td></tr></table></figure>
+
+<p>从定义我们可以看出，一种事件只能有一个Producer，却可以有多个Subscriber。</p>
+<p>找到了所有的producers之后，就是调用handlerFinder.findAllSubscribers(object)来寻找object中使用@Subscribe注解的方法，过程和findAllProducers类似，唯一的不同是一个事件可以有多个subscriber，因此findAllSubscribers的返回值类型是Map<class<?>, Set<eventhandler>&gt;。其中EventHandler包含了subscribe方法和订阅事件的对象的信息。</eventhandler></class<?></p>
+<p>找到监听类所有的subscribe方法之后，就需要查看bus中时候有和这些subscribe方法对应的producer方法，如果有的话，就会使用调用subscribe方法。这也就是文档上说的，一旦有新的subscriber订阅了某一事件，并且该事件有对应的producer，那么subscriber方法就会被立即调用，并且传入producer方法的返回值。</p>
+<h2 id="发送事件">发送事件</h2>
+<p>post(Obejct event)方法用来发送事件给所有订阅者，它接收一个Object类型的参数，说明Otto的事件可以是任意类型的对象。post方法首先会获取所有event对象的父类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Set&lt;Class&lt;?&gt;&gt; dispatchTypes = flattenHierarchy(event.getClass());</div></pre></td></tr></table></figure>
+
+<p>然后遍历这些父类，找到他们的所有订阅者，发送事件。这表明任何订阅了event对象父类的订阅者也都会收到event事件。值得注意的是Otto使用ThreadLocal类型来存放事件队列ThreadLocal<concurrentlinkedqueue<eventwithhandler>&gt; eventsToDispatch，这样极大的简化了多线程模式下的开发。</concurrentlinkedqueue<eventwithhandler></p>
+<h2 id="取消订阅">取消订阅</h2>
+<p>unregister方法，做的事情和register刚好想法，从缓存中清除所有和当前监听对象相关的producers和subscribers。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.jinkuyinku.com/2014/12/18/Otto源码分析/" data-id="x2vovan9jx0w0xsk" class="article-share-link">Share</a>
+      
+        <a href="http://blog.jinkuyinku.com/2014/12/18/Otto源码分析/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="square-Otto使用入门" class="article article-type-square" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/12/17/Otto使用入门/" class="article-date">
@@ -280,7 +345,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -290,6 +355,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/12/18/Otto源码分析/">Otto源码分析</a>
+          </li>
         
           <li>
             <a href="/2014/12/17/Otto使用入门/">Otto使用入门</a>
@@ -305,10 +374,6 @@
         
           <li>
             <a href="/2014/07/02/使用Android依赖注入工具Dagger（一）/">使用Android依赖注入工具Dagger（一）</a>
-          </li>
-        
-          <li>
-            <a href="/2014/06/30/使用gradle构建android程序-1/">使用Gradle构建Android程序-1</a>
           </li>
         
       </ul>
