@@ -84,7 +84,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="构造函数">构造函数</h2>
+        <ul>
+<li>android</li>
+<li>square</li>
+<li>Otto</li>
+<li>event bus</li>
+<li>源码分析</li>
+</ul>
+<h2 id="构造函数">构造函数</h2>
 <p>使用Otto通常是通过一个Provider提供一个Bus单例。<br>首先我们来分析一下Bus的构造函数，Bus类的构造函数最终都会调用Bus(ThreadEnforcer enforcer, String identifier, HandlerFinder handlerFinder)这个构造函数。<br>其中enforcer用来限制执行register，unregister以及post event的线程，如果执行这些函数的线程不是enforcer指定的线程，就会抛出异常。<br>identifier相当于给Bus起的一个名字，在toString方法中使用。<br>handlerFinder是整个event bus的核心，用于在register，unregister的时候寻找所有的subscriber和producer。handlerFinder不需要用户指定，默认使用HandlerFinder接口中定义的常量ANNOTATED，ANNOTATED本身就是HandlerFinder的匿名实现。</p>
 <h2 id="注册">注册</h2>
 <p>如果一个类对某些事件感兴趣，需要调用register方法来注册监听这些事件，监听通过在方法上使用@Subscribe来实现，Otto通过方法的参数来决定是否调用该方法。<br>register方法首先会调用handlerFinder的findAllProducers（object）方法去找到所有使用了@Produce注解的方法。findAllProducers其实是委托AnnotatedHandlerFinder.findAllProducers方法。在AnnotatedHandlerFinder中，定义了一个静态变量SUBSCRIBERS_CACHE</p>
