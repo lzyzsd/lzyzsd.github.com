@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Android Studio | Bruce Lee&#39;s Blog</title>
+  <title>Archives: 2015/1 | Bruce Lee&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Bruce Lee's Blog">
-<meta property="og:url" content="http://blog.jinkuyinku.com/tags/Android-Studio/">
+<meta property="og:url" content="http://blog.jinkuyinku.com/archives/2015/01/">
 <meta property="og:site_name" content="Bruce Lee's Blog">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-使用gradle构建android程序-1" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-android-gradle-深入浅出三-build-task" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/06/30/使用gradle构建android程序-1/" class="article-date">
-  <time datetime="2014-06-30T14:04:52.000Z" itemprop="datePublished">Jun 30 2014</time>
+    <a href="/2015/01/05/android-gradle-深入浅出三-build-task/" class="article-date">
+  <time datetime="2015-01-05T14:05:20.000Z" itemprop="datePublished">Jan 5 2015</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/30/使用gradle构建android程序-1/">使用Gradle构建Android程序-1</a>
+      <a class="article-title" href="/2015/01/05/android-gradle-深入浅出三-build-task/">android-gradle-深入浅出三:build-task</a>
     </h1>
   
 
@@ -84,18 +84,55 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Google I/O 2013放出了新的Android开发工具Android Studio以及全新的基于gradle的构建工具。这个系列主要就是介绍Android Studio和Gradle的使用。</p>
+        <ul>
+<li>Android</li>
+<li>Gradle</li>
+<li>Android Studio</li>
+<li>Task</li>
+</ul>
+<h3 id="构建任务(Build_Tasks)">构建任务(Build Tasks)</h3>
+<p>java和Android通用的任务<br>在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。</p>
+<p>Gradle中有如下一下默认约定的任务:</p>
+<ol>
+<li>assemble<br>该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk</li>
+<li>check<br>该任务包含了项目中所有验证相关的任务，比如运行测试的任务</li>
+<li>build<br>该任务包含了assemble和check</li>
+<li>clean<br>该任务会清空项目的所有的输出，删除所有在assemble任务中打的包</li>
+</ol>
+<p>assemble, check 和 build 任务实际上并不做任何事情，它们其实只是为插件提供了一个钩子，真正的事情都是由插件来完成的。</p>
+<p>这样的话，开发人员就不需要关心我到底运行的是一个java项目还是一个Android项目，也不用关心我到底使用了哪些gradle插件，因为我都可以调用这些约定的任务来完成构建。</p>
+<p>比如使用findbugs插件会创建一个新的任务，并且使得check任务依赖于这个新建的任务，这样每次执行check任务的时候，都会执行这个新建的任务。</p>
+<p>在命令行执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">gradle</span> tasks</div></pre></td></tr></table></figure>
+
+<p>会列出所有主要的任务</p>
+<p>如果想看到全部的任务和它们的依赖，可以运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gradle tasks --<span class="literal">all</span></div></pre></td></tr></table></figure>
+
+<p>注意：Gradle会自动检查一个任务的输入和输出。比如连续两次运行build任务的，Gradle会报告所有的任务都已经是最新刚运行过的了，不需要再次运行。这样的话，任务之间就算是有相互依赖，也不会导致重复的执行。</p>
+<h3 id="Java项目常用的任务">Java项目常用的任务</h3>
+<p>Java plugin 主要创建了两个任务：</p>
+<ol>
+<li>jar<br>assemble任务会依赖jar任务，看名字就知道这是负责打jar包的任务。jar任务本身又会依赖很多其他的任务，比如classes任务，classes任务会编译java代码</li>
+<li>test<br>check任务会依赖test任务，这个任务会运行所有的测试。测试代码使用testClasses任务编译，但是我们基本不用手动运行testClasses任务因为test任务已经添加了对它的依赖。</li>
+</ol>
+<p>通常情况下，我们只要运行assemble和check任务就够了。<br>想查看java插件提供的所有任务以及他们的依赖可以点这个<a href="http://gradle.org/docs/current/userguide/java_plugin.html" target="_blank" rel="external">链接</a></p>
+<h3 id="Android项目常用的任务">Android项目常用的任务</h3>
+<p>和其他gradle插件一样，Android插件也提供了一些默认的任务，比如assemble，check，build，clean，同时它也提供了一些自己特有的任务，比如：</p>
+<ol>
+<li>connectedCheck<br>运行那些需要在真机或者模拟器上执行的检查任务，这些任务会并行地在所有连接的设备上运行</li>
+<li>deviceCheck<br>使用APIs连接远程设备执行检查.主要用于CI(持续集成)服务上.<br>上面两个任务都会执行 assemble 和 check任务。新加这两个任务是很有必要的，这样可以保证我们可以运行那些不需要连接设备的检查任务。</li>
+</ol>
+<p>注意：build任务并不依赖于deviceCheck或者connectedCheck</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.jinkuyinku.com/2014/06/30/使用gradle构建android程序-1/" data-id="h82wdrglm0wjucvm" class="article-share-link">Share</a>
+      <a data-url="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/" data-id="tzuiqjtf7qmi0wyo" class="article-share-link">Share</a>
       
-        <a href="http://blog.jinkuyinku.com/2014/06/30/使用gradle构建android程序-1/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Studio/">Android Studio</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/">Gradle</a></li></ul>
-
     </footer>
   </div>
   

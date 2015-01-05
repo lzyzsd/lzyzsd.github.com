@@ -3,35 +3,44 @@
 <head>
   <meta charset="utf-8">
   
-  <title>android-gradle-深入浅出（二:项目结构） | Bruce Lee&#39;s Blog</title>
+  <title>android-gradle-深入浅出三:build-task | Bruce Lee&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Android
 Gradle
 Android Studio
+Task
 
-这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置
-Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。
-默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项">
+构建任务(Build Tasks)
+java和Android通用的任务在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。
+Gradle中有如下一下默认约定的任务:
+
+assemble该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android-gradle-深入浅出（二:项目结构）">
-<meta property="og:url" content="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/">
+<meta property="og:title" content="android-gradle-深入浅出三:build-task">
+<meta property="og:url" content="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/">
 <meta property="og:site_name" content="Bruce Lee's Blog">
 <meta property="og:description" content="Android
 Gradle
 Android Studio
+Task
 
-这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置
-Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。
-默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项">
+构建任务(Build Tasks)
+java和Android通用的任务在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。
+Gradle中有如下一下默认约定的任务:
+
+assemble该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android-gradle-深入浅出（二:项目结构）">
+<meta name="twitter:title" content="android-gradle-深入浅出三:build-task">
 <meta name="twitter:description" content="Android
 Gradle
 Android Studio
+Task
 
-这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置
-Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。
-默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项">
+构建任务(Build Tasks)
+java和Android通用的任务在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。
+Gradle中有如下一下默认约定的任务:
+
+assemble该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk">
 
   
     <link rel="alternative" href="/atom.xml" title="Bruce Lee&#39;s Blog" type="application/atom+xml">
@@ -78,10 +87,10 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="square-android-gradle-深入浅出（二:项目结构）" class="article article-type-square" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-android-gradle-深入浅出三-build-task" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/12/27/android-gradle-深入浅出（二:项目结构）/" class="article-date">
-  <time datetime="2014-12-27T10:29:50.000Z" itemprop="datePublished">Dec 27 2014</time>
+    <a href="/2015/01/05/android-gradle-深入浅出三-build-task/" class="article-date">
+  <time datetime="2015-01-05T14:05:20.000Z" itemprop="datePublished">Jan 5 2015</time>
 </a>
     
   </div>
@@ -92,7 +101,7 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
         
   
     <h1 class="article-title" itemprop="name">
-      android-gradle-深入浅出（二:项目结构）
+      android-gradle-深入浅出三:build-task
     </h1>
   
 
@@ -104,29 +113,49 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
 <li>Android</li>
 <li>Gradle</li>
 <li>Android Studio</li>
+<li>Task</li>
 </ul>
-<p>这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置</p>
-<p>Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。</p>
-<p>默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项目代码，androidTest目录下是测试代码。<br>src/main/<br>src/androidTest/</p>
-<p>在main和androidTest目录下面，针对不同类型的code，又不会不同的目录。<br>对于Java和Android的Gradle插件，Java代码和Java资源分别对应了java目录和resources目录。Android插件还需要一些其他的目录和文件，比如<br>AndroidManifest.xml<br>res/<br>assets/<br>aidl/<br>rs/<br>jni/</p>
-<p>下面我们来看一下如何更改这些默认的配置。</p>
-<p>Android工程，默认情况下，java文件和resource文件分别在src/main/java和src/main/res目录下，在build.gradle文件，andorid{}里面添加下面的代码，便可以将java文件和resource文件放到src/java和src/resources目录下。（注意，如果你在gradle文件中修改了，只需要重新sync一下，gradle会自动创建新的目录，并将对应的文件移动到新的目录下）</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="title">sourceSets</span> {</div><div class="line">    <span class="title">main</span> {</div><div class="line">        <span class="title">java</span> {</div><div class="line">            <span class="title">srcDir</span> <span class="string">'src/java'</span></div><div class="line">        }</div><div class="line">        resources {</div><div class="line">            <span class="title">srcDir</span> <span class="string">'src/resources'</span></div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<h3 id="构建任务(Build_Tasks)">构建任务(Build Tasks)</h3>
+<p>java和Android通用的任务<br>在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。</p>
+<p>Gradle中有如下一下默认约定的任务:</p>
+<ol>
+<li>assemble<br>该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk</li>
+<li>check<br>该任务包含了项目中所有验证相关的任务，比如运行测试的任务</li>
+<li>build<br>该任务包含了assemble和check</li>
+<li>clean<br>该任务会清空项目的所有的输出，删除所有在assemble任务中打的包</li>
+</ol>
+<p>assemble, check 和 build 任务实际上并不做任何事情，它们其实只是为插件提供了一个钩子，真正的事情都是由插件来完成的。</p>
+<p>这样的话，开发人员就不需要关心我到底运行的是一个java项目还是一个Android项目，也不用关心我到底使用了哪些gradle插件，因为我都可以调用这些约定的任务来完成构建。</p>
+<p>比如使用findbugs插件会创建一个新的任务，并且使得check任务依赖于这个新建的任务，这样每次执行check任务的时候，都会执行这个新建的任务。</p>
+<p>在命令行执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">gradle</span> tasks</div></pre></td></tr></table></figure>
 
-<p>更简便的写法是</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span>Sets {</div><div class="line">    main.java.srcDirs = [<span class="string">'src/java'</span>]</div><div class="line">    main.resources.srcDirs = [<span class="string">'src/resources'</span>]</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>会列出所有主要的任务</p>
+<p>如果想看到全部的任务和它们的依赖，可以运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gradle tasks --<span class="literal">all</span></div></pre></td></tr></table></figure>
 
-<p>数组里其实是可以指定多个目录，这样就可以将代码和资源放置到多个目录下。<br>在看一个Android项目的例子：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">android {</div><div class="line">    <span class="built_in">source</span>Sets {</div><div class="line">        main {</div><div class="line">            manifest.srcFile <span class="string">'AndroidManifest.xml'</span></div><div class="line">            java.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            resources.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            aidl.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            renderscript.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            res.srcDirs = [<span class="string">'res'</span>]</div><div class="line">            assets.srcDirs = [<span class="string">'assets'</span>]</div><div class="line">        }</div><div class="line"></div><div class="line">        androidTest.setRoot(<span class="string">'tests'</span>)</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>这里的main code其实使用的就是Android Gradle的默认值，而androidTest不再使用默认的androidTest目录，而是使用tests目录。</p>
+<p>注意：Gradle会自动检查一个任务的输入和输出。比如连续两次运行build任务的，Gradle会报告所有的任务都已经是最新刚运行过的了，不需要再次运行。这样的话，任务之间就算是有相互依赖，也不会导致重复的执行。</p>
+<h3 id="Java项目常用的任务">Java项目常用的任务</h3>
+<p>Java plugin 主要创建了两个任务：</p>
+<ol>
+<li>jar<br>assemble任务会依赖jar任务，看名字就知道这是负责打jar包的任务。jar任务本身又会依赖很多其他的任务，比如classes任务，classes任务会编译java代码</li>
+<li>test<br>check任务会依赖test任务，这个任务会运行所有的测试。测试代码使用testClasses任务编译，但是我们基本不用手动运行testClasses任务因为test任务已经添加了对它的依赖。</li>
+</ol>
+<p>通常情况下，我们只要运行assemble和check任务就够了。<br>想查看java插件提供的所有任务以及他们的依赖可以点这个<a href="http://gradle.org/docs/current/userguide/java_plugin.html" target="_blank" rel="external">链接</a></p>
+<h3 id="Android项目常用的任务">Android项目常用的任务</h3>
+<p>和其他gradle插件一样，Android插件也提供了一些默认的任务，比如assemble，check，build，clean，同时它也提供了一些自己特有的任务，比如：</p>
+<ol>
+<li>connectedCheck<br>运行那些需要在真机或者模拟器上执行的检查任务，这些任务会并行地在所有连接的设备上运行</li>
+<li>deviceCheck<br>使用APIs连接远程设备执行检查.主要用于CI(持续集成)服务上.<br>上面两个任务都会执行 assemble 和 check任务。新加这两个任务是很有必要的，这样可以保证我们可以运行那些不需要连接设备的检查任务。</li>
+</ol>
+<p>注意：build任务并不依赖于deviceCheck或者connectedCheck</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/" data-id="l34l1c00a588olhv" class="article-share-link">Share</a>
+      <a data-url="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/" data-id="tzuiqjtf7qmi0wyo" class="article-share-link">Share</a>
       
-        <a href="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/#disqus_thread" class="article-comment-link">Comments</a>
       
       
     </footer>
@@ -135,19 +164,10 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
     
 <nav id="article-nav">
   
-    <a href="/2015/01/05/android-gradle-深入浅出三-build-task/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          android-gradle-深入浅出三:build-task
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/12/23/android-gradle-深入浅出（一:简介）/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/12/27/android-gradle-深入浅出（二:项目结构）/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">android-gradle-深入浅出（一）</div>
+      <div class="article-nav-title">android-gradle-深入浅出（二:项目结构）</div>
     </a>
   
 </nav>
@@ -157,7 +177,7 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
 
 
 <section id="comments">
-  <div class="ds-thread" data-thread-key="l34l1c00a588olhv" data-title="android-gradle-深入浅出（二:项目结构）" data-url="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/">
+  <div class="ds-thread" data-thread-key="tzuiqjtf7qmi0wyo" data-title="android-gradle-深入浅出三:build-task" data-url="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/">
   </div>
     <script type="text/javascript">
       var duoshuoQuery = {short_name:"brucelee"};
@@ -259,7 +279,7 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
 <script>
   var disqus_shortname = 'BruceLee';
   
-  var disqus_url = 'http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/';
+  var disqus_url = 'http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/';
   
   (function(){
     var dsq = document.createElement('script');
