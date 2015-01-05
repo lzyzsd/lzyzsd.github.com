@@ -149,6 +149,16 @@ assemble该任务包含了项目中的所有打包相关的任务，比如java�
 <li>deviceCheck<br>使用APIs连接远程设备执行检查.主要用于CI(持续集成)服务上.<br>上面两个任务都会执行 assemble 和 check任务。新加这两个任务是很有必要的，这样可以保证我们可以运行那些不需要连接设备的检查任务。</li>
 </ol>
 <p>注意：build任务并不依赖于deviceCheck或者connectedCheck</p>
+<p>一个Android项目通常至少会有两种输出：debug apk和release apk。对应的gradle中有两个任务可以分别输出不同的apk：<br>assembleDebug<br>assembleRelease<br>这两个任务又会依赖其他的任务来构建一个apk。assemble任务依赖这两个任务，调用assemble任务就会生成两种apk。</p>
+<p>小提示： Gradle支持在命令行使用camel风格的缩写来代替任务的名字，比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">gradle</span> aR</div></pre></td></tr></table></figure>
+
+<p>等同于</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">gradle</span> assembleRelease</div></pre></td></tr></table></figure>
+
+<p>只要没有其他任务的缩写也是’aR’</p>
+<p>check相关的任务的依赖：<br>check依赖lint<br>connectedCheck依赖 connectedAndroidTest和connectedUiAutomatorTest (还没有实现)<br>deviceCheck依赖于那些实现了test扩展的插件所提供的任务</p>
+<p>最后，Android gradle插件还提供了install和uninstall任务，用来安装和卸载apk</p>
 
       
     </div>
