@@ -3,35 +3,38 @@
 <head>
   <meta charset="utf-8">
   
-  <title>android-gradle-深入浅出（二:项目结构） | Bruce Lee&#39;s Blog</title>
+  <title>android-gradle-深入浅出三:自定义构建过程入门 | Bruce Lee&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Android
 Gradle
 Android Studio
+Task
 
-这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置
-Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。
-默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项">
+Android Gradle插件提供了大量的DSL来自定义构建过程。
+配置Manifest条目
+DSL提供了配置一下Manifest条目的功能:minSdkVersiontargetSdkVersionversionCodeversionNameapplicationId (更加方便有效的包名 — 参考)测试app的包名In">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android-gradle-深入浅出（二:项目结构）">
-<meta property="og:url" content="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/">
+<meta property="og:title" content="android-gradle-深入浅出三:自定义构建过程入门">
+<meta property="og:url" content="http://blog.jinkuyinku.com/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/">
 <meta property="og:site_name" content="Bruce Lee's Blog">
 <meta property="og:description" content="Android
 Gradle
 Android Studio
+Task
 
-这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置
-Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。
-默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项">
+Android Gradle插件提供了大量的DSL来自定义构建过程。
+配置Manifest条目
+DSL提供了配置一下Manifest条目的功能:minSdkVersiontargetSdkVersionversionCodeversionNameapplicationId (更加方便有效的包名 — 参考)测试app的包名In">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android-gradle-深入浅出（二:项目结构）">
+<meta name="twitter:title" content="android-gradle-深入浅出三:自定义构建过程入门">
 <meta name="twitter:description" content="Android
 Gradle
 Android Studio
+Task
 
-这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置
-Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。
-默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项">
+Android Gradle插件提供了大量的DSL来自定义构建过程。
+配置Manifest条目
+DSL提供了配置一下Manifest条目的功能:minSdkVersiontargetSdkVersionversionCodeversionNameapplicationId (更加方便有效的包名 — 参考)测试app的包名In">
 
   
     <link rel="alternative" href="/atom.xml" title="Bruce Lee&#39;s Blog" type="application/atom+xml">
@@ -78,10 +81,10 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="square-android-gradle-深入浅出（二:项目结构）" class="article article-type-square" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-android-gradle-深入浅出四-自定义构建过程之配置manifest" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/12/27/android-gradle-深入浅出（二:项目结构）/" class="article-date">
-  <time datetime="2014-12-27T10:29:50.000Z" itemprop="datePublished">Dec 27 2014</time>
+    <a href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/" class="article-date">
+  <time datetime="2015-01-09T15:08:45.000Z" itemprop="datePublished">Jan 9 2015</time>
 </a>
     
   </div>
@@ -92,7 +95,7 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
         
   
     <h1 class="article-title" itemprop="name">
-      android-gradle-深入浅出（二:项目结构）
+      android-gradle-深入浅出三:自定义构建过程入门
     </h1>
   
 
@@ -104,29 +107,30 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
 <li>Android</li>
 <li>Gradle</li>
 <li>Android Studio</li>
+<li>Task</li>
 </ul>
-<p>这篇主要介绍使用Gradle的Android项目的目录结构，以及在Gradle中的配置</p>
-<p>Gradle采用约定优于配置的原则，最简单方式是使用一个默认的目录结构。当然目录结构是可以自己修改的。</p>
-<p>默认情况下，android gradle项目的代码都在src目录下，src下会有两个目录main和androidTest，其中main目录下是项目代码，androidTest目录下是测试代码。<br>src/main/<br>src/androidTest/</p>
-<p>在main和androidTest目录下面，针对不同类型的code，又不会不同的目录。<br>对于Java和Android的Gradle插件，Java代码和Java资源分别对应了java目录和resources目录。Android插件还需要一些其他的目录和文件，比如<br>AndroidManifest.xml<br>res/<br>assets/<br>aidl/<br>rs/<br>jni/</p>
-<p>下面我们来看一下如何更改这些默认的配置。</p>
-<p>Android工程，默认情况下，java文件和resource文件分别在src/main/java和src/main/res目录下，在build.gradle文件，andorid{}里面添加下面的代码，便可以将java文件和resource文件放到src/java和src/resources目录下。（注意，如果你在gradle文件中修改了，只需要重新sync一下，gradle会自动创建新的目录，并将对应的文件移动到新的目录下）</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="title">sourceSets</span> {</div><div class="line">    <span class="title">main</span> {</div><div class="line">        <span class="title">java</span> {</div><div class="line">            <span class="title">srcDir</span> <span class="string">'src/java'</span></div><div class="line">        }</div><div class="line">        resources {</div><div class="line">            <span class="title">srcDir</span> <span class="string">'src/resources'</span></div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>Android Gradle插件提供了大量的DSL来自定义构建过程。</p>
+<p>配置Manifest条目</p>
+<p>DSL提供了配置一下Manifest条目的功能:<br>minSdkVersion<br>targetSdkVersion<br>versionCode<br>versionName<br>applicationId (更加方便有效的包名 — <a href="http://tools.android.com/tech-docs/new-build-system/applicationid-vs-packagename" target="_blank" rel="external">参考</a>)<br>测试app的包名<br>Instrumentation test runner<br>示例：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="title">android</span> {</div><div class="line">    <span class="title">compileSdkVersion</span> <span class="number">19</span></div><div class="line">    buildToolsVersion <span class="string">"19.0.0"</span></div><div class="line"></div><div class="line">    defaultConfig {</div><div class="line">        <span class="title">versionCode</span> <span class="number">12</span></div><div class="line">        versionName <span class="string">"2.0"</span></div><div class="line">        minSdkVersion <span class="number">16</span></div><div class="line">        targetSdkVersion <span class="number">16</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>更简便的写法是</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span>Sets {</div><div class="line">    main.java.srcDirs = [<span class="string">'src/java'</span>]</div><div class="line">    main.resources.srcDirs = [<span class="string">'src/resources'</span>]</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>android元素中的defaultConfig元素就是我们用来配置Manifest的地方。早期版本的Android插件使用packageName来配置manifest中的packageName属性，从0.11.0开始，使用applicationId来代替packageName。这样可以消除应用的包名（其实就是应用的id）和java的包名之间的混淆。</p>
+<p>更强大的是build文件中描述的配置可以是动态的，比如可以从文件或者自定义的逻辑中获取版本名称。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">def computeVersionName() {</div><div class="line">    <span class="keyword">...</span></div><div class="line">}</div><div class="line"></div><div class="line">android {</div><div class="line">    compileSdkVersion <span class="number">19</span></div><div class="line">    buildToolsVersion <span class="string">"19.0.0"</span></div><div class="line"></div><div class="line">    defaultConfig {</div><div class="line">        versionCode <span class="number">12</span></div><div class="line">        versionName computeVersionName()</div><div class="line">        minSdkVersion <span class="number">16</span></div><div class="line">        targetSdkVersion <span class="number">16</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>数组里其实是可以指定多个目录，这样就可以将代码和资源放置到多个目录下。<br>在看一个Android项目的例子：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">android {</div><div class="line">    <span class="built_in">source</span>Sets {</div><div class="line">        main {</div><div class="line">            manifest.srcFile <span class="string">'AndroidManifest.xml'</span></div><div class="line">            java.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            resources.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            aidl.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            renderscript.srcDirs = [<span class="string">'src'</span>]</div><div class="line">            res.srcDirs = [<span class="string">'res'</span>]</div><div class="line">            assets.srcDirs = [<span class="string">'assets'</span>]</div><div class="line">        }</div><div class="line"></div><div class="line">        androidTest.setRoot(<span class="string">'tests'</span>)</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>注意：不要使用作用域中的getter方法名作为函数名，比如在defaultConfig{}作用域中调用getVersionName（）将会自动调用defaultConfig.getVersionName()，而不会调用自定义的方法。<br>如果某个属性的值没有使用DSL设置，这个属性将会使用某些默认值，下表展示了默认值的处理过程。</p>
+<p> 属性名    DSL对象中的默认值   默认值<br> versionCode   -1  value from manifest if present<br> versionName   null  value from manifest if present<br> minSdkVersion   -1  value from manifest if present<br> targetSdkVersion  -1  value from manifest if present<br> applicationId   null  value from manifest if present<br> testApplicationId   null  applicationId + “.test”<br> testInstrumentationRunner   null  android.test.InstrumentationTestRunner<br> signingConfig   null  null<br> proguardFile  N/A (set only)  N/A (set only)<br> proguardFiles   N/A (set only)  N/A (set only)</p>
+<p>如果你想在build脚本中使用自定义的逻辑来查询这些属性，第二列中的值就很重要。比如，你可以编写如下的代码：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (android.defaultConfig.testInstrumentationRunner == <span class="literal">null</span>) {</div><div class="line">    <span class="comment">// assign a better default...</span></div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>这里的main code其实使用的就是Android Gradle的默认值，而androidTest不再使用默认的androidTest目录，而是使用tests目录。</p>
+<p>如果属性的值仍然是null，那么在构建的时候，就会使用第三列的默认值，但是DSL元素中并不包含这些默认值，因此你不能在程序中查询这些值。这样做的目的是仅在必要的时候（构建时）才会去解析manifest内容。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/" data-id="l34l1c00a588olhv" class="article-share-link">Share</a>
+      <a data-url="http://blog.jinkuyinku.com/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/" data-id="2mmze45a3ifzac77" class="article-share-link">Share</a>
       
-        <a href="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://blog.jinkuyinku.com/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/#disqus_thread" class="article-comment-link">Comments</a>
       
       
     </footer>
@@ -135,19 +139,10 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
     
 <nav id="article-nav">
   
-    <a href="/2015/01/05/android-gradle-深入浅出三-build-task/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          android-gradle-深入浅出三:build-task
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/12/23/android-gradle-深入浅出（一:简介）/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/01/05/android-gradle-深入浅出三-build-task/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">android-gradle-深入浅出（一）</div>
+      <div class="article-nav-title">android-gradle-深入浅出三:build-task</div>
     </a>
   
 </nav>
@@ -157,7 +152,7 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
 
 
 <section id="comments">
-  <div class="ds-thread" data-thread-key="l34l1c00a588olhv" data-title="android-gradle-深入浅出（二:项目结构）" data-url="http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/">
+  <div class="ds-thread" data-thread-key="2mmze45a3ifzac77" data-title="android-gradle-深入浅出三:自定义构建过程入门" data-url="http://blog.jinkuyinku.com/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/">
   </div>
     <script type="text/javascript">
       var duoshuoQuery = {short_name:"brucelee"};
@@ -259,7 +254,7 @@ Gradle采用约定优于配置的原则，最简单方式是使用一个默认�
 <script>
   var disqus_shortname = 'BruceLee';
   
-  var disqus_url = 'http://blog.jinkuyinku.com/2014/12/27/android-gradle-深入浅出（二:项目结构）/';
+  var disqus_url = 'http://blog.jinkuyinku.com/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/';
   
   (function(){
     var dsq = document.createElement('script');
