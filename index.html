@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/">android-gradle-深入浅出三:自定义构建过程入门</a>
+      <a class="article-title" href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/">android-gradle-深入浅出四:自定义构建过程之配置manifest</a>
     </h1>
   
 
@@ -92,7 +92,7 @@
 </ul>
 <p>Android Gradle插件提供了大量的DSL来自定义构建过程。</p>
 <p>配置Manifest条目</p>
-<p>DSL提供了配置一下Manifest条目的功能:<br>minSdkVersion<br>targetSdkVersion<br>versionCode<br>versionName<br>applicationId (更加方便有效的包名 — <a href="http://tools.android.com/tech-docs/new-build-system/applicationid-vs-packagename" target="_blank" rel="external">参考</a>)<br>测试app的包名<br>Instrumentation test runner<br>示例：</p>
+<p>DSL提供了配置以下Manifest条目的功能:<br>minSdkVersion<br>targetSdkVersion<br>versionCode<br>versionName<br>applicationId (更加方便有效的包名 — <a href="http://tools.android.com/tech-docs/new-build-system/applicationid-vs-packagename" target="_blank" rel="external">参考</a>)<br>测试app的包名<br>Instrumentation test runner<br>示例：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="title">android</span> {</div><div class="line">    <span class="title">compileSdkVersion</span> <span class="number">19</span></div><div class="line">    buildToolsVersion <span class="string">"19.0.0"</span></div><div class="line"></div><div class="line">    defaultConfig {</div><div class="line">        <span class="title">versionCode</span> <span class="number">12</span></div><div class="line">        versionName <span class="string">"2.0"</span></div><div class="line">        minSdkVersion <span class="number">16</span></div><div class="line">        targetSdkVersion <span class="number">16</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p>android元素中的defaultConfig元素就是我们用来配置Manifest的地方。早期版本的Android插件使用packageName来配置manifest中的packageName属性，从0.11.0开始，使用applicationId来代替packageName。这样可以消除应用的包名（其实就是应用的id）和java的包名之间的混淆。</p>
@@ -833,7 +833,7 @@
       <ul>
         
           <li>
-            <a href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/">android-gradle-深入浅出三:自定义构建过程入门</a>
+            <a href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/">android-gradle-深入浅出四:自定义构建过程之配置manifest</a>
           </li>
         
           <li>
