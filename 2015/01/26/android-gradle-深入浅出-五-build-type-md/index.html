@@ -3,44 +3,35 @@
 <head>
   <meta charset="utf-8">
   
-  <title>android-gradle-深入浅出三:build-task | Bruce Lee&#39;s Blog</title>
+  <title>android-gradle-深入浅出-五:build-type.md | Bruce Lee&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Android
 Gradle
 Android Studio
 Task
+Build Type
 
-构建任务(Build Tasks)
-java和Android通用的任务在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。
-Gradle中有如下一下默认约定的任务:
-
-assemble该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk">
+默认情况下，Android插件自动为项目构建一个debug和一个release版本的应用。这两个版本的不同主要体现在在非开发机上的调试功能以及APK的签名方式。debug版本使用一个用公开的name/password创建的key来签名（这样构建的时候就不需要提示输入密码了）。release版本在构建的时">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android-gradle-深入浅出三:build-task">
-<meta property="og:url" content="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/">
+<meta property="og:title" content="android-gradle-深入浅出-五:build-type.md">
+<meta property="og:url" content="http://blog.jinkuyinku.com/2015/01/26/android-gradle-深入浅出-五-build-type-md/">
 <meta property="og:site_name" content="Bruce Lee's Blog">
 <meta property="og:description" content="Android
 Gradle
 Android Studio
 Task
+Build Type
 
-构建任务(Build Tasks)
-java和Android通用的任务在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。
-Gradle中有如下一下默认约定的任务:
-
-assemble该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk">
+默认情况下，Android插件自动为项目构建一个debug和一个release版本的应用。这两个版本的不同主要体现在在非开发机上的调试功能以及APK的签名方式。debug版本使用一个用公开的name/password创建的key来签名（这样构建的时候就不需要提示输入密码了）。release版本在构建的时">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android-gradle-深入浅出三:build-task">
+<meta name="twitter:title" content="android-gradle-深入浅出-五:build-type.md">
 <meta name="twitter:description" content="Android
 Gradle
 Android Studio
 Task
+Build Type
 
-构建任务(Build Tasks)
-java和Android通用的任务在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。
-Gradle中有如下一下默认约定的任务:
-
-assemble该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk">
+默认情况下，Android插件自动为项目构建一个debug和一个release版本的应用。这两个版本的不同主要体现在在非开发机上的调试功能以及APK的签名方式。debug版本使用一个用公开的name/password创建的key来签名（这样构建的时候就不需要提示输入密码了）。release版本在构建的时">
 
   
     <link rel="alternative" href="/atom.xml" title="Bruce Lee&#39;s Blog" type="application/atom+xml">
@@ -87,10 +78,10 @@ assemble该任务包含了项目中的所有打包相关的任务，比如java�
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-android-gradle-深入浅出三-build-task" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-android-gradle-深入浅出-五-build-type-md" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/01/05/android-gradle-深入浅出三-build-task/" class="article-date">
-  <time datetime="2015-01-05T14:05:20.000Z" itemprop="datePublished">Jan 5 2015</time>
+    <a href="/2015/01/26/android-gradle-深入浅出-五-build-type-md/" class="article-date">
+  <time datetime="2015-01-26T14:27:21.000Z" itemprop="datePublished">Jan 26 2015</time>
 </a>
     
   </div>
@@ -101,7 +92,7 @@ assemble该任务包含了项目中的所有打包相关的任务，比如java�
         
   
     <h1 class="article-title" itemprop="name">
-      android-gradle-深入浅出三:build-task
+      android-gradle-深入浅出-五:build-type.md
     </h1>
   
 
@@ -114,58 +105,30 @@ assemble该任务包含了项目中的所有打包相关的任务，比如java�
 <li>Gradle</li>
 <li>Android Studio</li>
 <li>Task</li>
+<li>Build Type</li>
 </ul>
-<h3 id="构建任务(Build_Tasks)">构建任务(Build Tasks)</h3>
-<p>java和Android通用的任务<br>在build文件中使用了Android或者Java插件之后就会自动创建一系列可以运行的任务。</p>
-<p>Gradle中有如下一下默认约定的任务:</p>
-<ol>
-<li>assemble<br>该任务包含了项目中的所有打包相关的任务，比如java项目中打的jar包，Android项目中打的apk</li>
-<li>check<br>该任务包含了项目中所有验证相关的任务，比如运行测试的任务</li>
-<li>build<br>该任务包含了assemble和check</li>
-<li>clean<br>该任务会清空项目的所有的输出，删除所有在assemble任务中打的包</li>
-</ol>
-<p>assemble, check 和 build 任务实际上并不做任何事情，它们其实只是为插件提供了一个钩子，真正的事情都是由插件来完成的。</p>
-<p>这样的话，开发人员就不需要关心我到底运行的是一个java项目还是一个Android项目，也不用关心我到底使用了哪些gradle插件，因为我都可以调用这些约定的任务来完成构建。</p>
-<p>比如使用findbugs插件会创建一个新的任务，并且使得check任务依赖于这个新建的任务，这样每次执行check任务的时候，都会执行这个新建的任务。</p>
-<p>在命令行执行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">gradle</span> tasks</div></pre></td></tr></table></figure>
+<p>默认情况下，Android插件自动为项目构建一个debug和一个release版本的应用。这两个版本的不同主要体现在在非开发机上的调试功能以及APK的签名方式。debug版本使用一个用公开的name/password创建的key来签名（这样构建的时候就不需要提示输入密码了）。release版本在构建的时候不会进行签名，而是稍后在做。<br>这个可以使用gradle中的BuildType对象来进行配置。默认情况下，2个BuildType的实例会被创建，一个debug，一个release。Android插件允许自定义这两个实例，当然你也可以创建其他的build type。配置由buildTypes这个DSL来完成：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="title">android</span> {</div><div class="line">    <span class="title">buildTypes</span> {</div><div class="line">        <span class="title">debug</span> {</div><div class="line">            <span class="title">applicationIdSuffix</span> <span class="string">".debug"</span></div><div class="line">        }</div><div class="line"></div><div class="line">        jnidebug.initWith(buildTypes.<span class="built_in">debug</span>)</div><div class="line">        jnidebug {</div><div class="line">            <span class="title">packageNameSuffix</span> <span class="string">".jnidebug"</span></div><div class="line">            jniDebuggable <span class="built_in">true</span></div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>会列出所有主要的任务</p>
-<p>如果想看到全部的任务和它们的依赖，可以运行：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gradle tasks --<span class="literal">all</span></div></pre></td></tr></table></figure>
+<p>上面的代码完成了下列配置：<br>1.配置默认的debug Build Type<br>  设置debug版本的报名为&lt;应用id&gt;.debug，这样就可以在设备上同时安装debug和release版本了。<br>2.创建一个新的BuildType，名字是jnidebug，同时配置它是复制自debug Build Type。<br>  配置jnidebug开启debug版本的JNI组件，添加一个不同的包名后缀。</p>
+<p>创建一个新的的Build Types非常简单，只需要在buildTypes下面通过调用initWith或者使用闭包添加一个新的元素。下表是可以配置的属性以及默认值：</p>
+<p> 属性明   debug版本默认值  release或其他版本 默认值<br> debuggable  true  false<br> jniDebuggable   false   false<br> renderscriptDebuggable  false   false<br> renderscriptOptimLevel  3   3<br> applicationIdSuffix   null  null<br> versionNameSuffix   null  null<br> signingConfig   android.signingConfigs.debug  null<br> zipAlignEnabled   false   true<br> minifyEnabled   false   false<br> proguardFile  N/A (set only)  N/A (set only)<br> proguardFiles   N/A (set only)  N/A (set only)</p>
+<p>出了这些属性，Build Types还可以用来配置代码和资源文件。针对每一个Build Type，一个新的对应的sourceSet会被创建，这个sourceSet使用一个默认的路径src/<buildtype名字>/。这就意味着Build Type的名字不能是main或者androidTest（这是由插件强制的），同时每个Build Type的名字必须是唯一的。</buildtype名字></p>
+<p>和其他的source sets一样，Build Type中的source set路径也是可以配置的</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">android {</div><div class="line">    <span class="built_in">source</span>Sets.jnidebug.setRoot(<span class="string">'foo/jnidebug'</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>注意：Gradle会自动检查一个任务的输入和输出。比如连续两次运行build任务的，Gradle会报告所有的任务都已经是最新刚运行过的了，不需要再次运行。这样的话，任务之间就算是有相互依赖，也不会导致重复的执行。</p>
-<h3 id="Java项目常用的任务">Java项目常用的任务</h3>
-<p>Java plugin 主要创建了两个任务：</p>
-<ol>
-<li>jar<br>assemble任务会依赖jar任务，看名字就知道这是负责打jar包的任务。jar任务本身又会依赖很多其他的任务，比如classes任务，classes任务会编译java代码</li>
-<li>test<br>check任务会依赖test任务，这个任务会运行所有的测试。测试代码使用testClasses任务编译，但是我们基本不用手动运行testClasses任务因为test任务已经添加了对它的依赖。</li>
-</ol>
-<p>通常情况下，我们只要运行assemble和check任务就够了。<br>想查看java插件提供的所有任务以及他们的依赖可以点这个<a href="http://gradle.org/docs/current/userguide/java_plugin.html" target="_blank" rel="external">链接</a></p>
-<h3 id="Android项目常用的任务">Android项目常用的任务</h3>
-<p>和其他gradle插件一样，Android插件也提供了一些默认的任务，比如assemble，check，build，clean，同时它也提供了一些自己特有的任务，比如：</p>
-<ol>
-<li>connectedCheck<br>运行那些需要在真机或者模拟器上执行的检查任务，这些任务会并行地在所有连接的设备上运行</li>
-<li>deviceCheck<br>使用APIs连接远程设备执行检查.主要用于CI(持续集成)服务上.<br>上面两个任务都会执行 assemble 和 check任务。新加这两个任务是很有必要的，这样可以保证我们可以运行那些不需要连接设备的检查任务。</li>
-</ol>
-<p>注意：build任务并不依赖于deviceCheck或者connectedCheck</p>
-<p>一个Android项目通常至少会有两种输出：debug apk和release apk。对应的gradle中有两个任务可以分别输出不同的apk：<br>assembleDebug<br>assembleRelease<br>这两个任务又会依赖其他的任务来构建一个apk。assemble任务依赖这两个任务，调用assemble任务就会生成两种apk。</p>
-<p>小提示： Gradle支持在命令行使用camel风格的缩写来代替任务的名字，比如：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">gradle</span> aR</div></pre></td></tr></table></figure>
-
-<p>等同于</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">gradle</span> assembleRelease</div></pre></td></tr></table></figure>
-
-<p>只要没有其他任务的缩写也是’aR’</p>
-<p>check相关的任务的依赖：<br>check依赖lint<br>connectedCheck依赖 connectedAndroidTest和connectedUiAutomatorTest (还没有实现)<br>deviceCheck依赖于那些实现了test扩展的插件所提供的任务</p>
-<p>最后，Android gradle插件还提供了install和uninstall任务，用来安装和卸载apk</p>
+<p>另外,对每一个Build Type,一个新的assemble<buildtype名字>任务会被创建.前面我已经讲过assembleDebug和assembleRelease任务了,这里就可解释这两个任务的来源了.当debug和release Build Types被预先创建的时候,他们对应的assemble任务也会被一起创建.</buildtype名字></p>
+<p>上面的build.gradle代码片段还会创建一个assembleJnidebug任务，assemble任务也会添加对assembleJniDebug任务的依赖，正如它对assembleDebug和assembleRelease任务的依赖一样。</p>
+<p>小提示：你可以使用 gradle aJ命令来运行assembleJnidebug任务。</p>
+<p>可能是使用场景：<br>仅在debug模式下使用的权限，release模式不使用。<br>debug时使用不同的实现<br>debug模式使用不同的资源（比如当一个资源的值依赖于签名的时候）</p>
+<p>BuildType中的 代码/资源文件 将会被按照下列方式处理：<br>manifest配置会被merge到app manifest中<br>代码不会被merge，会被当做另一个代码目录（source folder）来使用<br>资源文件会覆盖同名的main中的资源文件</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/" data-id="tzuiqjtf7qmi0wyo" class="article-share-link">Share</a>
+      <a data-url="http://blog.jinkuyinku.com/2015/01/26/android-gradle-深入浅出-五-build-type-md/" data-id="y2l7f48cfdv34if9" class="article-share-link">Share</a>
       
-        <a href="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://blog.jinkuyinku.com/2015/01/26/android-gradle-深入浅出-五-build-type-md/#disqus_thread" class="article-comment-link">Comments</a>
       
       
     </footer>
@@ -174,19 +137,10 @@ assemble该任务包含了项目中的所有打包相关的任务，比如java�
     
 <nav id="article-nav">
   
-    <a href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          android-gradle-深入浅出四:自定义构建过程之配置manifest
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/12/27/android-gradle-深入浅出（二:项目结构）/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">android-gradle-深入浅出（二:项目结构）</div>
+      <div class="article-nav-title">android-gradle-深入浅出四:自定义构建过程之配置manifest</div>
     </a>
   
 </nav>
@@ -196,7 +150,7 @@ assemble该任务包含了项目中的所有打包相关的任务，比如java�
 
 
 <section id="comments">
-  <div class="ds-thread" data-thread-key="tzuiqjtf7qmi0wyo" data-title="android-gradle-深入浅出三:build-task" data-url="http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/">
+  <div class="ds-thread" data-thread-key="y2l7f48cfdv34if9" data-title="android-gradle-深入浅出-五:build-type.md" data-url="http://blog.jinkuyinku.com/2015/01/26/android-gradle-深入浅出-五-build-type-md/">
   </div>
     <script type="text/javascript">
       var duoshuoQuery = {short_name:"brucelee"};
@@ -298,7 +252,7 @@ assemble该任务包含了项目中的所有打包相关的任务，比如java�
 <script>
   var disqus_shortname = 'BruceLee';
   
-  var disqus_url = 'http://blog.jinkuyinku.com/2015/01/05/android-gradle-深入浅出三-build-task/';
+  var disqus_url = 'http://blog.jinkuyinku.com/2015/01/26/android-gradle-深入浅出-五-build-type-md/';
   
   (function(){
     var dsq = document.createElement('script');

@@ -62,6 +62,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-android-gradle-深入浅出-五-build-type-md" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/26/android-gradle-深入浅出-五-build-type-md/" class="article-date">
+  <time datetime="2015-01-26T14:27:21.000Z" itemprop="datePublished">Jan 26 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/26/android-gradle-深入浅出-五-build-type-md/">android-gradle-深入浅出-五:build-type.md</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>Android</li>
+<li>Gradle</li>
+<li>Android Studio</li>
+<li>Task</li>
+<li>Build Type</li>
+</ul>
+<p>默认情况下，Android插件自动为项目构建一个debug和一个release版本的应用。这两个版本的不同主要体现在在非开发机上的调试功能以及APK的签名方式。debug版本使用一个用公开的name/password创建的key来签名（这样构建的时候就不需要提示输入密码了）。release版本在构建的时候不会进行签名，而是稍后在做。<br>这个可以使用gradle中的BuildType对象来进行配置。默认情况下，2个BuildType的实例会被创建，一个debug，一个release。Android插件允许自定义这两个实例，当然你也可以创建其他的build type。配置由buildTypes这个DSL来完成：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="title">android</span> {</div><div class="line">    <span class="title">buildTypes</span> {</div><div class="line">        <span class="title">debug</span> {</div><div class="line">            <span class="title">applicationIdSuffix</span> <span class="string">".debug"</span></div><div class="line">        }</div><div class="line"></div><div class="line">        jnidebug.initWith(buildTypes.<span class="built_in">debug</span>)</div><div class="line">        jnidebug {</div><div class="line">            <span class="title">packageNameSuffix</span> <span class="string">".jnidebug"</span></div><div class="line">            jniDebuggable <span class="built_in">true</span></div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>上面的代码完成了下列配置：<br>1.配置默认的debug Build Type<br>  设置debug版本的报名为&lt;应用id&gt;.debug，这样就可以在设备上同时安装debug和release版本了。<br>2.创建一个新的BuildType，名字是jnidebug，同时配置它是复制自debug Build Type。<br>  配置jnidebug开启debug版本的JNI组件，添加一个不同的包名后缀。</p>
+<p>创建一个新的的Build Types非常简单，只需要在buildTypes下面通过调用initWith或者使用闭包添加一个新的元素。下表是可以配置的属性以及默认值：</p>
+<p> 属性明   debug版本默认值  release或其他版本 默认值<br> debuggable  true  false<br> jniDebuggable   false   false<br> renderscriptDebuggable  false   false<br> renderscriptOptimLevel  3   3<br> applicationIdSuffix   null  null<br> versionNameSuffix   null  null<br> signingConfig   android.signingConfigs.debug  null<br> zipAlignEnabled   false   true<br> minifyEnabled   false   false<br> proguardFile  N/A (set only)  N/A (set only)<br> proguardFiles   N/A (set only)  N/A (set only)</p>
+<p>出了这些属性，Build Types还可以用来配置代码和资源文件。针对每一个Build Type，一个新的对应的sourceSet会被创建，这个sourceSet使用一个默认的路径src/<buildtype名字>/。这就意味着Build Type的名字不能是main或者androidTest（这是由插件强制的），同时每个Build Type的名字必须是唯一的。</buildtype名字></p>
+<p>和其他的source sets一样，Build Type中的source set路径也是可以配置的</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">android {</div><div class="line">    <span class="built_in">source</span>Sets.jnidebug.setRoot(<span class="string">'foo/jnidebug'</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>另外,对每一个Build Type,一个新的assemble<buildtype名字>任务会被创建.前面我已经讲过assembleDebug和assembleRelease任务了,这里就可解释这两个任务的来源了.当debug和release Build Types被预先创建的时候,他们对应的assemble任务也会被一起创建.</buildtype名字></p>
+<p>上面的build.gradle代码片段还会创建一个assembleJnidebug任务，assemble任务也会添加对assembleJniDebug任务的依赖，正如它对assembleDebug和assembleRelease任务的依赖一样。</p>
+<p>小提示：你可以使用 gradle aJ命令来运行assembleJnidebug任务。</p>
+<p>可能是使用场景：<br>仅在debug模式下使用的权限，release模式不使用。<br>debug时使用不同的实现<br>debug模式使用不同的资源（比如当一个资源的值依赖于签名的时候）</p>
+<p>BuildType中的 代码/资源文件 将会被按照下列方式处理：<br>manifest配置会被merge到app manifest中<br>代码不会被merge，会被当做另一个代码目录（source folder）来使用<br>资源文件会覆盖同名的main中的资源文件</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.jinkuyinku.com/2015/01/26/android-gradle-深入浅出-五-build-type-md/" data-id="y2l7f48cfdv34if9" class="article-share-link">Share</a>
+      
+        <a href="http://blog.jinkuyinku.com/2015/01/26/android-gradle-深入浅出-五-build-type-md/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-android-gradle-深入浅出四-自定义构建过程之配置manifest" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/" class="article-date">
@@ -747,47 +807,6 @@
 
 
   
-    <article id="post-使用gradle构建android程序-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/06/30/使用gradle构建android程序-1/" class="article-date">
-  <time datetime="2014-06-30T14:04:52.000Z" itemprop="datePublished">Jun 30 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/30/使用gradle构建android程序-1/">使用Gradle构建Android程序-1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Google I/O 2013放出了新的Android开发工具Android Studio以及全新的基于gradle的构建工具。这个系列主要就是介绍Android Studio和Gradle的使用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.jinkuyinku.com/2014/06/30/使用gradle构建android程序-1/" data-id="h82wdrglm0wjucvm" class="article-share-link">Share</a>
-      
-        <a href="http://blog.jinkuyinku.com/2014/06/30/使用gradle构建android程序-1/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Studio/">Android Studio</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/">Gradle</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
@@ -821,7 +840,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -831,6 +850,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/01/26/android-gradle-深入浅出-五-build-type-md/">android-gradle-深入浅出-五:build-type.md</a>
+          </li>
         
           <li>
             <a href="/2015/01/09/android-gradle-深入浅出四-自定义构建过程之配置manifest/">android-gradle-深入浅出四:自定义构建过程之配置manifest</a>
@@ -846,10 +869,6 @@
         
           <li>
             <a href="/2014/12/23/android-gradle-深入浅出（一:简介）/">android-gradle-深入浅出（一）</a>
-          </li>
-        
-          <li>
-            <a href="/2014/12/18/Otto源码分析/">Otto源码分析</a>
           </li>
         
       </ul>
